@@ -1,0 +1,526 @@
+{
+ "m1": {
+  "t": "The Missing Commit",
+  "w": "World 01 · The Broken Workspace",
+  "story": "A developer edited two files but never committed them. A secrets file is also lying around the workspace.",
+  "par": 6,
+  "goals": [
+   "Inspect the repository status",
+   "Stage only the files that belong in the commit",
+   "Commit with a meaningful message",
+   "Keep secrets.env out of history"
+  ],
+  "hints": [
+   "Run git status to see modified and untracked files.",
+   "secrets.env must never be committed. Avoid git add . and stage each file by name.",
+   "git add app.js README.md, then git commit -m \"Add discount support\""
+  ],
+  "tests": []
+ },
+ "m2": {
+  "t": "The Feature Branch",
+  "w": "World 03 · Branching Dimension",
+  "story": "Login must be built without touching main. Create an isolated branch and do the work there.",
+  "par": 7,
+  "goals": [
+   "Create branch feature/login",
+   "Implement function login() in login.js on that branch and commit it",
+   "Return to main, leaving main untouched"
+  ],
+  "hints": [
+   "git switch -c feature/login creates and enters the branch.",
+   "Edit login.js in the editor, e.g. replace the TODO with function login(){ return true }.",
+   "git add login.js, git commit -m \"Add login\", then git switch main."
+  ],
+  "tests": []
+ },
+ "m3": {
+  "t": "Two Developers, One File",
+  "w": "World 04 · Merge Conflict Zone",
+  "story": "One developer added a 10% discount, another added a flat shipping fee. Both edited the same line. The final price needs both.",
+  "par": 9,
+  "goals": [
+   "Merge feature/discount into main",
+   "Resolve the conflict so BOTH changes survive",
+   "Stage the file and complete the merge commit"
+  ],
+  "hints": [
+   "git merge feature/discount will stop with a conflict.",
+   "Open price.js. Remove the markers and write one total() that applies *0.9 and +5.",
+   "git add price.js then git commit -m \"Merge discount and shipping\"."
+  ],
+  "tests": [
+   [
+    "discount applied",
+    "Expected 104 for p=100, Actual 115: the discount is missing"
+   ],
+   [
+    "shipping fee kept",
+    "Expected 104, Actual 99: the shipping fee is missing"
+   ],
+   [
+    "no conflict markers",
+    "Conflict markers still in file"
+   ],
+   [
+    "one total() only",
+    "Duplicate total() definitions"
+   ]
+  ]
+ },
+ "m4": {
+  "t": "The Bug in Production",
+  "w": "World 02 · The Commit Vault",
+  "story": "Customers see a total of 8 instead of 10. A recent commit broke production.",
+  "par": 8,
+  "goals": [
+   "Inspect the history and find the guilty commit",
+   "Compare versions with git diff or git show",
+   "Fix it with a new commit (revert or edit), keeping tax.js",
+   "Run npm test"
+  ],
+  "hints": [
+   "git log shows the history; git show <id> shows what each commit changed.",
+   "\"Optimize totals\" changed return 10 into return 8.",
+   "git revert HEAD undoes it safely without rewriting history."
+  ],
+  "tests": [
+   [
+    "total() returns 10 for the sample cart",
+    "Expected: 10  Actual: 8. Inspect the latest change to calc.js"
+   ]
+  ]
+ },
+ "m5": {
+  "t": "The Silent Sum",
+  "w": "World 05 · The Debugging Maze",
+  "story": "sum([1,2,3]) should return 6. It returns garbage. There are two bugs.",
+  "par": 6,
+  "goals": [
+   "Read the failing test output",
+   "Fix both bugs in the editor",
+   "Commit the fix"
+  ],
+  "hints": [
+   "Run npm test: each failure shows expected vs actual.",
+   "Loop bound: i <= arr.length reads one element too far.",
+   "The accumulator subtracts. Use total += arr[i]."
+  ],
+  "tests": [
+   [
+    "loop stops at the last element",
+    "Expected 3 iterations, Actual 4: i <= arr.length reads arr[3] (undefined)"
+   ],
+   [
+    "adds each element",
+    "Expected: 6  Actual: -6. Check the operator"
+   ]
+  ]
+ },
+ "m6": {
+  "t": "The Broken Pull Request",
+  "w": "World 07 · The Pull Request Arena",
+  "story": "Nour opened a pull request for a discount code. Review it carefully before anything reaches main.",
+  "par": 3,
+  "goals": [
+   "Read the diff in the Pull Request panel",
+   "Spot the bug",
+   "Request changes with a clear comment (never approve a bug)"
+  ],
+  "hints": [
+   "Read every added line, not just the title.",
+   "Look at the if condition. What does a single = do?",
+   "Write a comment such as \"Use == / === to compare; = assigns\"."
+  ],
+  "tests": []
+ },
+ "m7": {
+  "t": "The Last Commit",
+  "w": "World 10 · Project Zero",
+  "story": "PROJECT ZERO will not deploy. The pipeline runs on what is PUSHED, so fix every failing stage, commit, and push to origin/main.",
+  "par": 12,
+  "goals": [
+   "Run pipeline and read the failing stage",
+   "Fix calc.js and ci.yml",
+   "Commit your fixes",
+   "Push until every stage passes and production deploys"
+  ],
+  "hints": [
+   "npm test and pipeline show what fails. Fix one stage at a time.",
+   "Typos in ci.yml: \"npm instal\", \"biuld\", \"stagging\". add() should return a + b.",
+   "git add ., git commit -m \"Fix pipeline\", git push origin main"
+  ],
+  "tests": [
+   [
+    "add(2,3) returns 5",
+    "Expected: 5  Actual: -1"
+   ]
+  ]
+ },
+ "w6": {
+  "t": "Push the Feature",
+  "w": "World 06 · Remote Connection",
+  "story": "Your teammate finished a feature locally, but origin/main is behind. Synchronize the remote.",
+  "par": 5,
+  "goals": [
+   "Inspect the remote with git remote -v",
+   "Read git status: you are ahead of origin/main",
+   "Push main to origin"
+  ],
+  "hints": [
+   "git remote -v shows where origin points.",
+   "git status reports \"ahead of origin/main\".",
+   "git push origin main"
+  ],
+  "tests": []
+ },
+ "w9": {
+  "t": "Green Pipeline",
+  "w": "World 09 · CI/CD Control Room",
+  "story": "The pipeline is red. Read the failing stage, fix the workflow file, commit, and push so CI can deploy.",
+  "par": 8,
+  "goals": [
+   "Run pipeline and find the failing stage",
+   "Fix ci.yml (lint step and deploy target)",
+   "Commit and push to origin/main"
+  ],
+  "hints": [
+   "pipeline shows each stage and the first failure.",
+   "Add \"  - run: npm run lint\" and set target: production.",
+   "git add ., git commit -m \"Fix CI\", git push origin main"
+  ],
+  "tests": []
+ },
+ "w8": {
+  "t": "The Failing Tests",
+  "w": "World 08 · Testing Lab",
+  "story": "Two unit tests fail. Read Expected vs Actual and repair the implementation without breaking anything else.",
+  "par": 6,
+  "goals": [
+   "Run npm test",
+   "Fix the code",
+   "Commit the fix"
+  ],
+  "hints": [
+   "Fix both failing tests, then commit."
+  ],
+  "tests": [
+   [
+    "sums item prices",
+    "Expected: 30  Actual: NaN. Items have price, not cost"
+   ],
+   [
+    "empty cart returns 0",
+    "Expected: 0  Actual: TypeError. reduce needs an initial value (0)"
+   ]
+  ]
+ },
+ "h2": {
+  "t": "Who Broke It?",
+  "w": "World 02 · The Commit Vault",
+  "story": "Two commits landed after the bad one. Find the culprit with git log and git show, then revert exactly that commit.",
+  "par": 8,
+  "goals": [
+   "Find the commit that changed the total to 8",
+   "Revert that commit by id (not HEAD)",
+   "Keep the later commits"
+  ],
+  "hints": [
+   "git show <id> displays what each commit changed.",
+   "git revert <id of \"Tweak totals\">"
+  ],
+  "tests": [
+   [
+    "total() returns 10",
+    "Expected: 10  Actual: 8. An OLD commit broke calc.js"
+   ]
+  ]
+ },
+ "ff": {
+  "t": "The Fast-Forward",
+  "w": "World 03 · Branching Dimension",
+  "story": "feature/search is ahead of main, and main has no new commits. Bring main up to date.",
+  "par": 4,
+  "goals": [
+   "Make sure you are on main",
+   "Merge feature/search",
+   "Notice: no merge commit is needed (fast-forward)"
+  ],
+  "hints": [
+   "git branch shows the active branch.",
+   "git merge feature/search"
+  ],
+  "tests": []
+ },
+ "c2": {
+  "t": "Imports Collide",
+  "w": "World 04 · Merge Conflict Zone",
+  "story": "Two developers added different imports on the same line.",
+  "par": 9,
+  "goals": [
+   "Merge feature/logger into main",
+   "Keep BOTH imports",
+   "Finish the merge"
+  ],
+  "hints": [
+   "git merge feature/logger",
+   "Keep one import line for router and one for logger.",
+   "git add app.js, then git commit"
+  ],
+  "tests": [
+   [
+    "keeps router import",
+    "The router import is missing"
+   ],
+   [
+    "keeps logger import",
+    "The logger import is missing"
+   ],
+   [
+    "no conflict markers",
+    "Conflict markers are still in the file"
+   ]
+  ]
+ },
+ "d5": {
+  "t": "Wrong Return",
+  "w": "World 05 · The Debugging Maze",
+  "story": "Find the bug with npm test, fix it in the editor, then commit.",
+  "par": 6,
+  "goals": [
+   "Run npm test",
+   "Fix the code",
+   "Commit the fix"
+  ],
+  "hints": [
+   "Which variable holds the result?"
+  ],
+  "tests": [
+   [
+    "returns the sum",
+    "Expected: 5  Actual: 2. Return the computed value"
+   ]
+  ]
+ },
+ "w8b": {
+  "t": "Catch the Regression",
+  "w": "World 08 · Testing Lab",
+  "story": "Find the bug with npm test, fix it in the editor, then commit.",
+  "par": 6,
+  "goals": [
+   "Run npm test",
+   "Fix the code",
+   "Commit the fix"
+  ],
+  "hints": [
+   "A refactor turned a percent discount into a subtraction."
+  ],
+  "tests": [
+   [
+    "applies percent discount",
+    "Expected: 90 for p=100, d=0.1  Actual: 99.9 (regression)"
+   ],
+   [
+    "keeps the comment",
+    "Do not delete the comment"
+   ]
+  ]
+ },
+ "w7b": {
+  "t": "Clean Frontend PR",
+  "w": "World 07 · The Pull Request Arena",
+  "story": "A teammate opened a pull request. Approve good work. Request changes, with a comment, on bad work.",
+  "par": 3,
+  "goals": [
+   "Read the diff carefully",
+   "Decide whether it is safe and tested",
+   "Act on your decision"
+  ],
+  "hints": [
+   "Look for anything unsafe or untested.",
+   "This one is clean and tested: approve it."
+  ],
+  "tests": []
+ },
+ "w7c": {
+  "t": "The Unsafe Change",
+  "w": "World 07 · The Pull Request Arena",
+  "story": "A teammate opened a pull request. Approve good work. Request changes, with a comment, on bad work.",
+  "par": 3,
+  "goals": [
+   "Read the diff carefully",
+   "Decide whether it is safe and tested",
+   "Act on your decision"
+  ],
+  "hints": [
+   "Search the diff for dangerous calls.",
+   "Evaluating user input is never safe."
+  ],
+  "tests": []
+ },
+ "w7d": {
+  "t": "Missing Test",
+  "w": "World 07 · The Pull Request Arena",
+  "story": "A teammate opened a pull request. Approve good work. Request changes, with a comment, on bad work.",
+  "par": 3,
+  "goals": [
+   "Read the diff carefully",
+   "Decide whether it is safe and tested",
+   "Act on your decision"
+  ],
+  "hints": [
+   "What proves this change works?",
+   "Ask for a test."
+  ],
+  "tests": []
+ },
+ "rb": {
+  "t": "Keep History Linear",
+  "w": "World 03 · Branching Dimension",
+  "story": "main moved on while you worked on feature. The team wants a straight history with no merge commit.",
+  "par": 6,
+  "goals": [
+   "Switch to feature",
+   "Rebase feature onto main",
+   "Fast-forward main to feature (no merge commit)"
+  ],
+  "hints": [
+   "git switch feature, then git rebase main replays your commits on top of main.",
+   "Now git switch main.",
+   "git merge feature fast-forwards."
+  ],
+  "tests": []
+ },
+ "g1": {
+  "t": "Stash and Hotfix",
+  "w": "Git Challenge",
+  "story": "You are mid-feature on main when an urgent hotfix arrives. Do not lose your work.",
+  "par": 9,
+  "goals": [
+   "Stash your uncommitted work",
+   "Switch to hotfix and commit a fix to fix.js (write \"fixed\" in it)",
+   "Return to main and git stash pop"
+  ],
+  "hints": [
+   "git stash saves changes and cleans the tree.",
+   "git switch hotfix, edit fix.js, git add, git commit.",
+   "git switch main, then git stash pop."
+  ],
+  "tests": []
+ },
+ "g2": {
+  "t": "Cherry-Pick the Typo Fix",
+  "w": "Git Challenge",
+  "story": "The feature branch holds an experimental commit and a typo fix. Only the typo fix may reach main.",
+  "par": 6,
+  "goals": [
+   "Find the typo-fix commit with git log",
+   "Cherry-pick only that commit onto main"
+  ],
+  "hints": [
+   "git log lists every commit with its id.",
+   "git cherry-pick <id of \"Fix typo\">"
+  ],
+  "tests": []
+ },
+ "d1": {
+  "t": "The Undefined Variable",
+  "w": "Debugging Challenge",
+  "story": "Find the bug with npm test, fix it in the editor, then commit.",
+  "par": 6,
+  "goals": [
+   "Run npm test",
+   "Fix the code",
+   "Commit the fix"
+  ],
+  "hints": [
+   "The parameter is called name."
+  ],
+  "tests": [
+   [
+    "uses the parameter name",
+    "ReferenceError: nam is not defined"
+   ]
+  ]
+ },
+ "d2": {
+  "t": "The Wrong Operator",
+  "w": "Debugging Challenge",
+  "story": "Find the bug with npm test, fix it in the editor, then commit.",
+  "par": 6,
+  "goals": [
+   "Run npm test",
+   "Fix the code",
+   "Commit the fix"
+  ],
+  "hints": [
+   "Use >= so that 18 is included."
+  ],
+  "tests": [
+   [
+    "18-year-olds are adults",
+    "Expected: true for 18  Actual: false"
+   ]
+  ]
+ },
+ "d3": {
+  "t": "Assignment vs Comparison",
+  "w": "Debugging Challenge",
+  "story": "Find the bug with npm test, fix it in the editor, then commit.",
+  "par": 6,
+  "goals": [
+   "Run npm test",
+   "Fix the code",
+   "Commit the fix"
+  ],
+  "hints": [
+   "A single = assigns a value instead of comparing."
+  ],
+  "tests": [
+   [
+    "compares with ===",
+    "Expected: false for 3  Actual: true (= assigns)"
+   ]
+  ]
+ },
+ "d6": {
+  "t": "Python: The Missing Colon",
+  "w": "Debugging Challenge",
+  "story": "Find the bug with npm test, fix it in the editor, then commit.",
+  "par": 6,
+  "goals": [
+   "Run npm test",
+   "Fix the code",
+   "Commit the fix"
+  ],
+  "hints": [
+   "Python blocks start with a colon."
+  ],
+  "tests": [
+   [
+    "if line ends with a colon",
+    "SyntaxError: expected ':' after the if condition"
+   ]
+  ]
+ },
+ "d7": {
+  "t": "Python: Off by One",
+  "w": "Debugging Challenge",
+  "story": "Find the bug with npm test, fix it in the editor, then commit.",
+  "par": 6,
+  "goals": [
+   "Run npm test",
+   "Fix the code",
+   "Commit the fix"
+  ],
+  "hints": [
+   "Python lists start at index 0."
+  ],
+  "tests": [
+   [
+    "loop starts at the first item",
+    "Expected: 6 for [1,2,3]  Actual: 5. range(1, ...) skips index 0"
+   ]
+  ]
+ }
+}
